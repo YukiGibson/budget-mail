@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM", "ES2024"]
+  },
+  "include": ["src/**/*", "tests/**/*"]
+}

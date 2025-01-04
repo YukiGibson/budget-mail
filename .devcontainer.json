@@ -1,0 +1,27 @@
+{
+  "name": "Node.js",
+  "build": { "dockerfile": "Dockerfile" },
+  // https://containers.dev/templates
+  // "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm", 
+  // https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": ["streetsidesoftware.code-spell-checker", "dbaeumer.vscode-eslint"]
+    }
+  },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Budget Mail",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install",
+  "remoteUser": "node"
+}

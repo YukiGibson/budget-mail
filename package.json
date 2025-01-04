@@ -1,0 +1,38 @@
+{
+  "name": "budget-mail",
+  "version": "0.0.1",
+  "description": "Script to read emails",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec \"npm run start\"",
+    "start": "tsc ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YukiGibson/budget-mail.git"
+  },
+  "author": "Laureano Sanchez Aguilar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YukiGibson/budget-mail/issues"
+  },
+  "homepage": "https://github.com/YukiGibson/budget-mail#readme",
+  "devDependencies": {
+    "@types/imap": "^0.8.42",
+    "@types/mailparser": "^3.4.5",
+    "nodemon": "^3.1.9",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "imap": "^0.8.19",
+    "mailparser": "^3.7.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/test/**",
+      "node_modules"
+    ],
+    "delay": 2500
+  }
+}
