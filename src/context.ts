@@ -1,4 +1,4 @@
-import { GraphClient } from "./request/request"
+import { GraphClient } from "./graph"
 
 export function createContext() {
   /**
