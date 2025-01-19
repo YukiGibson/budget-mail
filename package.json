@@ -27,5 +27,8 @@
       "node_modules"
     ],
     "delay": 2500
+  },
+  "dependencies": {
+    "pino": "^9.6.0"
   }
 }
