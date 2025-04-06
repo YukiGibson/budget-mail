@@ -15,14 +15,14 @@ async function retry<T>(fn: Promise<T>,retryTimes: number = 1, error = new Error
   if (retryTimes > 3) {
     throw new Error(`Reached retry limit: ${error.message}`);
   }
-  let results: T;
+  let results: T | undefined = undefined;
   try {
     results = await fn;
   } catch (error) {
     setTimeout(() => {
       // just wait
     }, 1000 * retryTimes);
-    retry(fn, retryTimes + 1, error) ;
+    retry(fn, retryTimes + 1, error as Error) ;
   }
   return results
 }
@@ -32,8 +32,8 @@ async function request<T>(baseUrl: BaseUrl, queryParameters: QueryParameters, bo
   const url = new URL(`/path?${query.toString()}`, baseUrl);
   const fetchPromise = fetch(url.href, body);
   const response = await retry(fetchPromise)
-  if (!response.ok) {
-    throw new Error(`Request to path '${baseUrl}' failed with status ${response.status}`); 
+  if (!response?.ok) {
+    throw new Error(`Request to path '${baseUrl}' failed with status ${response?.status}`); 
   }
   // use the abort controller if we need to cancel requests
   return {

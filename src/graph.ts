@@ -9,7 +9,6 @@ export class GraphClient {
     this.#baseUrl = baseUrl;
     this.#logger = logger;
     /**
-
      * - deal with rate limits
      */
   }

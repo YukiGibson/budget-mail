@@ -4,9 +4,11 @@
   "description": "Script to read emails",
   "main": "index.js",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "dev": "nodemon --exec \"npm run start\"",
     "start": "tsc ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint **/*.js --no-warn-ignored"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,9 @@
   },
   "homepage": "https://github.com/YukiGibson/budget-mail#readme",
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "jiti": "^2.4.2",
     "typescript": "^5.7.2"
   },
   "nodemonConfig": {
