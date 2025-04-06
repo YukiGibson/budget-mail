@@ -15,6 +15,9 @@
       "extensions": ["streetsidesoftware.code-spell-checker", "dbaeumer.vscode-eslint"]
     }
   },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERNAME}/.ssh,target=/home/vscode/.ssh,type=bind"
+  ],
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
