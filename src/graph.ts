@@ -1,32 +1,32 @@
+import {Logger} from "pino";
 import { get } from "./request";
 
-interface FetchClient {
-  get: Promise;
-  post: Promise<Body>;
-  put: Promise<boolean>;
-  deletem: Promise<boolean>;
-}
 
-export class GraphClient implements FetchClient {
-  readonly #baseUrl;
-  constructor(baseUrl: string) {
+export class GraphClient {
+  readonly #baseUrl: string;
+  readonly #logger: Logger;
+  constructor(baseUrl: string, logger: Logger) {
     this.#baseUrl = baseUrl;
+    this.#logger = logger;
     /**
-     * implement:
-     * - retries
-     * - abort controller
      * - deal with rate limits
      */
   }
 
-  async messagesFrom(email: string) {
-    const select = {eq: ['sender/emailAddress/address', email]};
-    const [b] = Object.keys(select)
-    const c = select[b].join(` ${b} `);
+  /**
+   * 
+   * @param {string} email 
+   * @returns {Promise<Record<string, unknown>>}
+   */
+  async messagesFrom(email: string): Promise<Record<string, unknown>> {
+    this.#logger.info(`Searching with email "${email}"`);
     const url = new URL('/messages', this.#baseUrl);
-    const a = await get(url);
-  //https://graph.microsoft.com/v1.0/me/messages?$select=sender/emailAddress/address eq 'notificacion@notificacionesbaccr.com'
+    let result: any; // TODO: change for actual object type
+    try {
+      result = await get(url, {select: `sender/emailAddress/address eq '${email}'`});
+    } catch (error) {
+      this.#logger.error((error as Error).message); 
+    }
+    return result;
   }
-  put: Promise<boolean>;
-  deletem: Promise<boolean>;
 }

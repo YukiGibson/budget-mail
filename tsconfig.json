@@ -1,6 +1,14 @@
 {
   "compilerOptions": {
-    "lib": ["DOM", "ES2024"]
+    "lib": ["DOM", "ES2024"],
+    "outDir": "dist/",
+    "rootDir": "src/",
+    "module": "ESNext",
+    "target": "ES2022",
+    "strict": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true ,
   },
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules"]
 }

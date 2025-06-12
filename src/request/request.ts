@@ -9,13 +9,33 @@ type RequestResponse<T> = {
   status: number;
 }
 
-async function request<T>(baseUrl: string, queryParameters: QueryParameters, body: RequestInit): Promise<RequestResponse<T>> {
+type BaseUrl = string | URL
+
+async function retry<T>(fn: Promise<T>,retryTimes: number = 1, error = new Error()) {
+  if (retryTimes > 3) {
+    throw new Error(`Reached retry limit: ${error.message}`);
+  }
+  let results: T | undefined = undefined;
+  try {
+    results = await fn;
+  } catch (error) {
+    setTimeout(() => {
+      // just wait
+    }, 1000 * retryTimes);
+    retry(fn, retryTimes + 1, error as Error) ;
+  }
+  return results
+}
+
+async function request<T>(baseUrl: BaseUrl, queryParameters: QueryParameters, body: RequestInit): Promise<RequestResponse<T>> {
   const query = new URLSearchParams(queryParameters);
   const url = new URL(`/path?${query.toString()}`, baseUrl);
-  const response = await fetch(url.href, body);  
-  if (!response.ok) {
-    throw new Error(`Request to path '${baseUrl}' failed with status ${response.status}`); 
+  const fetchPromise = fetch(url.href, body);
+  const response = await retry(fetchPromise)
+  if (!response?.ok) {
+    throw new Error(`Request to path '${baseUrl}' failed with status ${response?.status}`); 
   }
+  // use the abort controller if we need to cancel requests
   return {
     toJson: async () => await response.json() as T,
     body: response.body,
@@ -29,14 +49,14 @@ async function request<T>(baseUrl: string, queryParameters: QueryParameters, bod
  * @param queryParameters 
  * @returns 
  */
-export async function get<T>(baseUrl: string, queryParameters: QueryParameters): Promise<T> {
+export async function get<T>(baseUrl: BaseUrl, queryParameters: QueryParameters): Promise<T> {
   const body = {method: 'GET'};
   const response = await request<T>(baseUrl, queryParameters, body)
   const jsonResponse = await response.toJson();
   return jsonResponse; 
 }
 
-export async function post<T>(baseUrl: string, queryParameters: QueryParameters, body: BodyInit) {
+export async function post<T>(baseUrl: BaseUrl, queryParameters: QueryParameters, body: BodyInit) {
   const requestBody = {method: 'POST', body};
   const response = await request<T>(baseUrl, queryParameters, requestBody);
   return response.body;
