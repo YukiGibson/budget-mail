@@ -1,8 +1,8 @@
 {
   "name": "Node.js",
-  "build": { "dockerfile": "Dockerfile" },
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm", 
+  // "build": { "dockerfile": "Dockerfile" },
   // https://containers.dev/templates
-  // "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm", 
   // https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
